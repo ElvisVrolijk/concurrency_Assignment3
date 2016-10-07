@@ -4,9 +4,9 @@
 public class Buyer extends Thread {
 
     private Hiswa hiswa;
-    private Viewer viewer;
 
-    public Buyer(Hiswa hiswa) {
+    public Buyer(String name, Hiswa hiswa) {
+        super(name);
         this.hiswa = hiswa;
     }
 
@@ -18,4 +18,19 @@ public class Buyer extends Thread {
         }
 
     }
+
+    //buy
+    private void buy() {
+        try {
+            System.out.println(getName() + " is buying a boat");
+            Thread.sleep((int) (Math.random() * 100));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getBuyerName(){
+        return getName();
+    }
+
 }

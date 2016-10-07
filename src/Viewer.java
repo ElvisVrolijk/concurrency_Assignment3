@@ -4,7 +4,11 @@
 public class Viewer extends Thread {
 
     private Hiswa hiswa;
-    private Buyer buyer;
+
+    public Viewer(String name, Hiswa hiswa) {
+        super(name);
+        this.hiswa = hiswa;
+    }
 
     @Override
     public void run() {
@@ -13,4 +17,26 @@ public class Viewer extends Thread {
 
         }
     }
+
+    private void justLive() {
+        try {
+            System.out.println(getName() + " living");
+            Thread.sleep((int) (Math.random() * 1000));
+        } catch (InterruptedException e) {
+        }
+
+    }
+
+    private void viewersView(){
+        try {
+            System.out.println(getName() + " viewing the boats");
+            Thread.sleep((int) (Math.random() * 1000));
+        } catch (InterruptedException e) {
+        }
+    }
+
+    public String getViewerName() {
+        return getName();
+    }
+
 }
