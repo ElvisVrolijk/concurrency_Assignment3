@@ -14,7 +14,9 @@ public class Buyer extends Thread {
     public void run() {
         while (true) {
             //the code
-
+            hiswa.entranceBuyer();
+            buy();
+            hiswa.exit();
         }
 
     }

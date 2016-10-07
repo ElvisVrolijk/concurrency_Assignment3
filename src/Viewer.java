@@ -14,7 +14,11 @@ public class Viewer extends Thread {
     public void run() {
         while (true) {
             //the code
+            justLive();
 
+            hiswa.entranceViewer();
+            viewersView();
+            hiswa.exit();
         }
     }
 

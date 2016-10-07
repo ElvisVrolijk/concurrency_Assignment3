@@ -33,47 +33,69 @@ public class Hiswa {
         lock = new ReentrantLock();
         viewerEnter = lock.newCondition();
         buyerEnter = lock.newCondition();
-        viewersLeave = lock.newCondition();
-        buyersLeave = lock.newCondition();
-        entranceAvailable = lock.newCondition();
+        //viewersLeave = lock.newCondition();
+        //buyersLeave = lock.newCondition();
+        //entranceAvailable = lock.newCondition();
     }
 
-    public boolean entrance() {
-
-        //if the hiswa is not full
-        if (viewersInside != NR_VIEWERS_ALLOWED_IN) {
-            //are there 10 viewers inside, if not allow more viewers in
-
+    public void entranceViewer() {
+        lock.lock();
+        try {
+            viewersWaitingCount++;
+            //if the hiswa is not full
+            while (viewersInside == 10 || buyersWaitingCount > 0)
+                viewerEnter.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
         }
 
-        if (buyerInside != NR_BUYERS_ALLOWED_IN) {
-        }
-
+        //are there 10 viewers inside, if not allow more viewers in
         //if 4 buyers have entered consecutive, viewers are allowed in
-        if (buyerCount >= 4) {
-            //viewers can go in
+
+    }
+
+    public void entranceBuyer() {
+        lock.lock();
+        try {
+            buyersWaitingCount++;
+            while (buyerInside >= 1) {
+                buyerEnter.wait();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
         }
 
+    }
 
+
+    public void exitViewer() {
+        lock.lock();
+        try {
+            viewersInside--;
+            viewerEnter.signal();
+        }finally {
+            lock.unlock();
+        }
+    }
+
+    public void exitBuyer() {
+        lock.lock();
+        try {
+            buyerInside--;
+            //buyer count is the 4 buyers at max
+            buyerCount++;
+            buyerEnter.signal();
+        }finally {
+            lock.unlock();
+        }
     }
 
     public void viewingBoats() throws InterruptedException {
 
-        //firs thread to repport arrival goes in
-        //if this is a viewer, more can go in (till 10)
-        //if this is a buyer, only he can go in
-
-        while ()
-
-        //viewers in line
-        //viewer entering
-        //viewers inside
-        //viewer leaving
-
-        //buyer in line
-        //buyer enters
-        //buyer buys --> pays
-        //buyer leaves
 
     }
 
